@@ -1,0 +1,44 @@
+{
+  "info": {
+    "name": "JuanTV API",
+    "description": "Endpoints de catálogo, autenticación y personalización. Define baseUrl, token, movieId y categoryId en el entorno.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:4000/api" },
+    { "key": "token", "value": "" },
+    { "key": "movieId", "value": "" },
+    { "key": "categoryId", "value": "" }
+  ],
+  "item": [
+    { "name": "Health", "request": { "method": "GET", "url": "{{baseUrl}}/health" } },
+    { "name": "Auth", "item": [
+      { "name": "Signup", "request": { "method": "POST", "header": [{ "key": "Content-Type", "value": "application/json" }], "body": { "mode": "raw", "raw": "{\"name\":\"Ana\",\"lastName\":\"López\",\"email\":\"ana@example.com\",\"password\":\"Password123\"}", "options": { "raw": { "language": "json" } } }, "url": "{{baseUrl}}/auth/signup" } },
+      { "name": "Signin", "request": { "method": "POST", "header": [{ "key": "Content-Type", "value": "application/json" }], "body": { "mode": "raw", "raw": "{\"email\":\"ana@example.com\",\"password\":\"Password123\"}", "options": { "raw": { "language": "json" } } }, "url": "{{baseUrl}}/auth/signin" } }
+    ] },
+    { "name": "Categories", "item": [
+      { "name": "List", "request": { "method": "GET", "url": "{{baseUrl}}/categories" } },
+      { "name": "Create", "request": { "method": "POST", "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }, { "key": "Content-Type", "value": "application/json" }], "body": { "mode": "raw", "raw": "{\"name\":\"Aventura\",\"slug\":\"aventura\"}", "options": { "raw": { "language": "json" } } }, "url": "{{baseUrl}}/categories" } },
+      { "name": "Update", "request": { "method": "PUT", "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }, { "key": "Content-Type", "value": "application/json" }], "body": { "mode": "raw", "raw": "{\"name\":\"Aventura\",\"slug\":\"aventura\"}", "options": { "raw": { "language": "json" } } }, "url": "{{baseUrl}}/categories/{{categoryId}}" } },
+      { "name": "Delete", "request": { "method": "DELETE", "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }], "url": "{{baseUrl}}/categories/{{categoryId}}" } }
+    ] },
+    { "name": "Movies", "item": [
+      { "name": "List with filters and pagination", "request": { "method": "GET", "url": "{{baseUrl}}/movies?title=&category=&page=1&limit=12" } },
+      { "name": "Featured", "request": { "method": "GET", "url": "{{baseUrl}}/movies/featured" } },
+      { "name": "Detail", "request": { "method": "GET", "url": "{{baseUrl}}/movies/{{movieId}}" } },
+      { "name": "Similar", "request": { "method": "GET", "url": "{{baseUrl}}/movies/{{movieId}}/similar" } },
+      { "name": "Create", "request": { "method": "POST", "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }, { "key": "Content-Type", "value": "application/json" }], "body": { "mode": "raw", "raw": "{\"title\":\"Nueva historia\",\"description\":\"Descripción\",\"coverImg\":\"https://example.com/cover.jpg\",\"bannerImg\":\"https://example.com/banner.jpg\",\"videoUrl\":\"https://www.youtube.com/embed/ysz5S6PUM-U\",\"duration\":100,\"releaseYear\":2025,\"category\":\"{{categoryId}}\",\"cast\":[\"Actor\"],\"director\":\"Dirección\"}", "options": { "raw": { "language": "json" } } }, "url": "{{baseUrl}}/movies" } },
+      { "name": "Update", "request": { "method": "PUT", "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }, { "key": "Content-Type", "value": "application/json" }], "body": { "mode": "raw", "raw": "{\"title\":\"Título actualizado\"}", "options": { "raw": { "language": "json" } } }, "url": "{{baseUrl}}/movies/{{movieId}}" } },
+      { "name": "Delete", "request": { "method": "DELETE", "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }], "url": "{{baseUrl}}/movies/{{movieId}}" } },
+      { "name": "Rate", "request": { "method": "POST", "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }, { "key": "Content-Type", "value": "application/json" }], "body": { "mode": "raw", "raw": "{\"score\":5}", "options": { "raw": { "language": "json" } } }, "url": "{{baseUrl}}/movies/{{movieId}}/ratings" } },
+      { "name": "Recommendations", "request": { "method": "GET", "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }], "url": "{{baseUrl}}/movies/recommendations" } }
+    ] },
+    { "name": "Users", "item": [
+      { "name": "My list", "request": { "method": "GET", "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }], "url": "{{baseUrl}}/users/mylist" } },
+      { "name": "Add to my list", "request": { "method": "POST", "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }], "url": "{{baseUrl}}/users/mylist/{{movieId}}" } },
+      { "name": "Remove from my list", "request": { "method": "DELETE", "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }], "url": "{{baseUrl}}/users/mylist/{{movieId}}" } },
+      { "name": "Add to history", "request": { "method": "POST", "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }], "url": "{{baseUrl}}/users/history/{{movieId}}" } },
+      { "name": "History", "request": { "method": "GET", "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }], "url": "{{baseUrl}}/users/history" } }
+    ] }
+  ]
+}
